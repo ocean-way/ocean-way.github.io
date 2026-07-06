@@ -313,7 +313,6 @@
 		<h2>Contact Me</h2>
 	</header>
 	
-	<!-- Блок с сообщением об успешной отправке (изначально скрыт) -->
 	<div id="success-message" style="display: none; background: #edf7ed; color: #1e4620; padding: 15px; border-radius: 4px; margin-bottom: 20px; text-align: center; font-weight: bold; border: 1px solid #c3e6cb;">
 		Thank you for sending your message! Our team will contact you soon.
 	</div>
@@ -349,33 +348,33 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
     const successMessage = document.getElementById('success-message');
     const form = document.getElementById('contact-form');
     
-    // Меняем текст кнопки, чтобы пользователь видел процесс
+    // Визуальный фидбек для пользователя
     submitBtn.value = 'Sending...';
     submitBtn.disabled = true;
 
-    // Собираем данные в формате FormData для Google
+    // Формируем пакет данных с точными ID
     const formData = new FormData();
     formData.append('entry.1538047490', document.getElementById('form-name').value);
-    formData.append('emailAddress', document.getElementById('form-email').value);
+    formData.append('entry.1735698072', document.getElementById('form-email').value);
     formData.append('entry.2061090389', document.getElementById('form-subject').value);
     formData.append('entry.1286327650', document.getElementById('form-message').value);
 
-    // Отправляем запрос методом fetch (режим no-cors идеален для Google Forms)
+    // Прямая фоновая отправка в Google Forms
     fetch('https://docs.google.com/forms/u/0/d/1rmRxsXN9-uPBENbGE-Ns52ikku_Pps2j1S7jtiYd1mc/formResponse', {
         method: 'POST',
         mode: 'no-cors',
         body: formData
     })
     .then(() => {
-        // Показываем красивое сообщение об успехе
+        // Показываем красивый плашечный текст сверху
         successMessage.style.display = 'block';
-        // Очищаем форму
+        // Очищаем инпуты
         form.reset();
-        // Возвращаем кнопку в исходное состояние
+        // Возвращаем кнопку в рабочее состояние
         submitBtn.value = 'Send Message';
         submitBtn.disabled = false;
         
-        // Скроллим к началу блока, чтобы пользователь точно увидел надпись
+        // Плавно прокручиваем страницу к тексту благодарности
         successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
     })
     .catch(error => {
