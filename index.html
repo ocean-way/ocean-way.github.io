@@ -252,7 +252,7 @@
 01. Diagnose & Strategize I analyze your audience, dissect competitors, and find the exact creative angles that make your product click.<br>
 02. Write for Retention I script hooks that stop the scroll past the 3-second drop-off and craft smooth, optimize for paid acquisition. <br>
 03. Record & Produce I deliver flawless UI/UX screen-casts, clear voiceovers, and natural on-camera presentations. No fluff, just crisp product clarity.<br>
-04. Edit & Optimize I add dynamic motion graphics, adapt videos for multi-platform reach, and deliver A/B hook variations to lower your CPA.
+04. Edit & Guide I add dynamic motion graphics, adapt videos for multi-platform reach, and deliver A/B hook variations to lower your CPA.
 								</p>
 								<section>
 
@@ -260,8 +260,8 @@
 
 		<div class="video-card">
 			<div class="video-wrapper vertical">
-				<video class="preview-video" muted loop playsinline preload="auto" poster="1por.mp4#t=0.1" data-src="1por.mp4">
-					<source src="1por.mp4#t=0.1" type="video/mp4">
+				<video class="preview-video" muted loop playsinline preload="metadata" data-src="1por.mp4">
+					<source src="1por.mp4" type="video/mp4">
 				</video>
 				<div class="play-overlay"><span>▶</span></div>
 			</div>
@@ -270,8 +270,8 @@
 
 		<div class="video-card">
 			<div class="video-wrapper vertical">
-				<video class="preview-video" muted loop playsinline preload="auto" poster="2por.mp4#t=0.1" data-src="2por.mp4">
-					<source src="2por.mp4#t=0.1" type="video/mp4">
+				<video class="preview-video" muted loop playsinline preload="metadata" data-src="2por.mp4">
+					<source src="2por.mp4" type="video/mp4">
 				</video>
 				<div class="play-overlay"><span>▶</span></div>
 			</div>
@@ -280,8 +280,8 @@
 
 		<div class="video-card">
 			<div class="video-wrapper vertical">
-				<video class="preview-video" muted loop playsinline preload="auto" poster="3por.mp4#t=0.1" data-src="3por.mp4">
-					<source src="3por.mp4#t=0.1" type="video/mp4">
+				<video class="preview-video" muted loop playsinline preload="metadata" data-src="3por.mp4">
+					<source src="3por.mp4" type="video/mp4">
 				</video>
 				<div class="play-overlay"><span>▶</span></div>
 			</div>
@@ -290,8 +290,8 @@
 
 		<div class="video-card">
 			<div class="video-wrapper horizontal">
-				<video class="preview-video" muted loop playsinline preload="auto" poster="4por.mp4#t=0.1" data-src="4por.mp4">
-					<source src="4por.mp4#t=0.1" type="video/mp4">
+				<video class="preview-video" muted loop playsinline preload="metadata" data-src="4por.mp4">
+					<source src="4por.mp4" type="video/mp4">
 				</video>
 				<div class="play-overlay"><span>▶</span></div>
 			</div>
@@ -452,8 +452,13 @@ const modalVideo = document.getElementById('modalVideo');
 const closeBtn = document.getElementById('videoClose');
 
 document.querySelectorAll('.preview-video').forEach(video => {
-	// Fix black screen issue on iOS: force browser to load initial frame
-	video.readyState >= 2 ? video.currentTime = 0.1 : video.addEventListener('loadeddata', () => { video.currentTime = 0.1; });
+	// Let the browser load the first frame naturally and fast
+	video.addEventListener('loadedmetadata', () => {
+		video.currentTime = 0.1;
+	});
+	if (video.readyState >= 1) {
+		video.currentTime = 0.1;
+	}
 
 	// Autoplay WITHOUT audio on hover
 	video.parentElement.addEventListener('mouseenter', () => {
