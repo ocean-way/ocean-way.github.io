@@ -260,9 +260,7 @@
 
 		<div class="video-card">
 			<div class="video-wrapper vertical">
-				<video class="preview-video" muted loop playsinline preload="metadata" data-src="1por.mp4">
-					<source src="1por.mp4" type="video/mp4">
-				</video>
+				<video class="preview-video" muted loop playsinline preload="none" src="1por.mp4" data-src="1por.mp4"></video>
 				<div class="play-overlay"><span>▶</span></div>
 			</div>
 			<div class="video-title">Crypto Reels</div>
@@ -270,9 +268,7 @@
 
 		<div class="video-card">
 			<div class="video-wrapper vertical">
-				<video class="preview-video" muted loop playsinline preload="metadata" data-src="2por.mp4">
-					<source src="2por.mp4" type="video/mp4">
-				</video>
+				<video class="preview-video" muted loop playsinline preload="none" src="2por.mp4" data-src="2por.mp4"></video>
 				<div class="play-overlay"><span>▶</span></div>
 			</div>
 			<div class="video-title">TikTok Lightroom</div>
@@ -280,9 +276,7 @@
 
 		<div class="video-card">
 			<div class="video-wrapper vertical">
-				<video class="preview-video" muted loop playsinline preload="metadata" data-src="3por.mp4">
-					<source src="3por.mp4" type="video/mp4">
-				</video>
+				<video class="preview-video" muted loop playsinline preload="none" src="3por.mp4" data-src="3por.mp4"></video>
 				<div class="play-overlay"><span>▶</span></div>
 			</div>
 			<div class="video-title">Gambling Ads</div>
@@ -290,9 +284,7 @@
 
 		<div class="video-card">
 			<div class="video-wrapper horizontal">
-				<video class="preview-video" muted loop playsinline preload="metadata" data-src="4por.mp4">
-					<source src="4por.mp4" type="video/mp4">
-				</video>
+				<video class="preview-video" muted loop playsinline preload="none" src="4por.mp4" data-src="4por.mp4"></video>
 				<div class="play-overlay"><span>▶</span></div>
 			</div>
 			<div class="video-title">Gambling Tutorials ...and more upon request</div>
@@ -339,20 +331,17 @@
 
 <script>
 document.getElementById('contact-form').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevents page reload on submit
+    e.preventDefault(); 
     
     const btn = document.getElementById('submit-btn');
     const msg = document.getElementById('success-message');
     const form = document.getElementById('contact-form');
     
-    // UI Feedback
     btn.value = 'Sending...';
     btn.disabled = true;
 
-    // Collect data
     const formData = new FormData(form);
 
-    // Dynamic submission to Web3Forms API
     fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         body: formData
@@ -360,7 +349,6 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Show custom success state
             msg.style.display = 'block';
             form.reset();
             msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -373,7 +361,6 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
         alert('An error occurred. Please try again.');
     })
     .finally(() => {
-        // Reset button state
         btn.value = 'Send Message';
         btn.disabled = false;
     });
@@ -451,14 +438,18 @@ const modal = document.getElementById('videoModal');
 const modalVideo = document.getElementById('modalVideo');
 const closeBtn = document.getElementById('videoClose');
 
+// Скрипт инициализации видео ОПТИМИЗИРОВАН
 document.querySelectorAll('.preview-video').forEach(video => {
-	// Let the browser load the first frame naturally and fast
+	
+	// Перехватываем событие загрузки метаданных, когда оно случится
 	video.addEventListener('loadedmetadata', () => {
 		video.currentTime = 0.1;
 	});
-	if (video.readyState >= 1) {
-		video.currentTime = 0.1;
-	}
+
+	// Запускаем извлечение превью только ПОСЛЕ полной готовности страницы (не блокирует старт)
+	window.addEventListener('load', () => {
+		video.preload = "metadata";
+	});
 
 	// Autoplay WITHOUT audio on hover
 	video.parentElement.addEventListener('mouseenter', () => {
