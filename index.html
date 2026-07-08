@@ -235,7 +235,7 @@
 								</header>
 								<a href="#work" class="jumplink pic">
 									<span class="arrow icon solid fa-chevron-right"><span>See my work</span></span>
-									<img src="images/me.webp" alt="" />
+									<img src="images/me.webp" alt="Vadim Varda" loading="lazy" width="400" height="400" />
 								</a>
 							</article>
 
@@ -260,7 +260,7 @@
 
 		<div class="video-card">
 			<div class="video-wrapper vertical">
-				<video class="preview-video" muted loop playsinline preload="none" src="1por.mp4" data-src="1por.mp4"></video>
+				<video class="preview-video" muted loop playsinline preload="none" data-src="1por.mp4"></video>
 				<div class="play-overlay"><span>▶</span></div>
 			</div>
 			<div class="video-title">Crypto Reels</div>
@@ -268,7 +268,7 @@
 
 		<div class="video-card">
 			<div class="video-wrapper vertical">
-				<video class="preview-video" muted loop playsinline preload="none" src="2por.mp4" data-src="2por.mp4"></video>
+				<video class="preview-video" muted loop playsinline preload="none" data-src="2por.mp4"></video>
 				<div class="play-overlay"><span>▶</span></div>
 			</div>
 			<div class="video-title">TikTok Lightroom</div>
@@ -276,7 +276,7 @@
 
 		<div class="video-card">
 			<div class="video-wrapper vertical">
-				<video class="preview-video" muted loop playsinline preload="none" src="3por.mp4" data-src="3por.mp4"></video>
+				<video class="preview-video" muted loop playsinline preload="none" data-src="3por.mp4"></video>
 				<div class="play-overlay"><span>▶</span></div>
 			</div>
 			<div class="video-title">Gambling Ads</div>
@@ -284,7 +284,7 @@
 
 		<div class="video-card">
 			<div class="video-wrapper horizontal">
-				<video class="preview-video" muted loop playsinline preload="none" src="4por.mp4" data-src="4por.mp4"></video>
+				<video class="preview-video" muted loop playsinline preload="none" data-src="4por.mp4"></video>
 				<div class="play-overlay"><span>▶</span></div>
 			</div>
 			<div class="video-title">Gambling Tutorials ...and more upon request</div>
@@ -420,11 +420,11 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
 
 			</div>
 
-		<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+		<script src="assets/js/jquery.min.js" defer></script>
+		<script src="assets/js/browser.min.js" defer></script>
+		<script src="assets/js/breakpoints.min.js" defer></script>
+		<script src="assets/js/util.js" defer></script>
+		<script src="assets/js/main.js" defer></script>
 
 <div id="videoModal">
 	<div class="modal-content-wrapper">
@@ -434,43 +434,46 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
 </div>
 
 <script>
+// Нативный JS запускается мгновенно
 const modal = document.getElementById('videoModal');
 const modalVideo = document.getElementById('modalVideo');
 const closeBtn = document.getElementById('videoClose');
 
-// Скрипт инициализации видео ОПТИМИЗИРОВАН
 document.querySelectorAll('.preview-video').forEach(video => {
 	
-	// Перехватываем событие загрузки метаданных, когда оно случится
 	video.addEventListener('loadedmetadata', () => {
 		video.currentTime = 0.1;
 	});
 
-	// Запускаем извлечение превью только ПОСЛЕ полной готовности страницы (не блокирует старт)
-	window.addEventListener('load', () => {
-		video.preload = "metadata";
+	// Асинхронно активируем видео и создаем превью только КОГДА страница полностью отрисована и готова к взаимодействию
+	window.addEventListener('DOMContentLoaded', () => {
+		setTimeout(() => {
+			video.src = video.dataset.src;
+			video.preload = "metadata";
+		}, 600); // 600мс задержка дает первой вкладке открыться моментально
 	});
 
-	// Autoplay WITHOUT audio on hover
+	// Autoplay без звука при наведении
 	video.parentElement.addEventListener('mouseenter', () => {
-		video.muted = true;
-		video.play().catch(err => console.log("Autoplay blocked"));
+		if(video.src) {
+			video.muted = true;
+			video.play().catch(err => console.log("Autoplay blocked"));
+		}
 	});
 
-	// Pause and reset on mouse leave
 	video.parentElement.addEventListener('mouseleave', () => {
-		video.pause();
-		video.currentTime = 0.1;
+		if(video.src) {
+			video.pause();
+			video.currentTime = 0.1;
+		}
 	});
 
-	// Open lightbox with full audio on click
+	// Клик открывает модалку со звуком
 	video.parentElement.addEventListener('click', () => {
 		modalVideo.src = video.dataset.src;
 		modal.classList.add('active');
-		
-		modalVideo.muted = false; // Enable audio
+		modalVideo.muted = false; 
 		modalVideo.play();
-
 		document.body.style.overflow = 'hidden';
 	});
 });
