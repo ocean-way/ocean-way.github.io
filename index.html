@@ -1,518 +1,1032 @@
 <!DOCTYPE HTML>
+
 <html>
-	<head>
-		<title>UGC Ad Fintech • SaaS • B2B • IT</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+<head>
+
+<title>UGC Ad Fintech • SaaS • B2B • IT</title>
+
+<meta charset="utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+<link rel="stylesheet" href="assets/css/main.css" />
+
+<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
 <style>
+
 /* Video Grid: desktop 2x2, scaled down to 80% for wider panel padding */
+
 .video-grid{
-	display:grid;
-	grid-template-columns:repeat(2,1fr);
-	gap:40px; /* Increased gap between cards */
-	margin: 2em auto 0 auto;
-	max-width: 80%; /* Compresses the grid horizontally for better margins */
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:40px; /* Increased gap between cards */
+
+margin: 2em auto 0 auto;
+
+max-width: 80%; /* Compresses the grid horizontally for better margins */
+
+}
+
+
+
+.video-card{
+
+position:relative;
+
+cursor:pointer;
+
+text-align:center;
+
+padding: 0 15%; /* Inside margins for subtle preview scaling */
+
+}
+
+
+
+/* Wrapper constraints to prevent video from expanding outside bounds on zoom */
+
+.video-wrapper{
+
+position:relative;
+
+border-radius:12px;
+
+overflow:hidden;
+
+background:#000;
+
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+
+width: 100%;
+
+}
+
+
+
+/* Aspect ratio handling at CSS level */
+
+.video-wrapper.vertical {
+
+aspect-ratio: 9 / 16; /* For Reels / Shorts (1, 2, 3) */
+
+}
+
+
+
+.video-wrapper.horizontal {
+
+aspect-ratio: 16 / 9; /* For regular YouTube (4) */
+
+}
+
+
+
+/* Base video styling */
+
+.video-wrapper video{
+
+display:block;
+
+width:100%;
+
+height:100%;
+
+object-fit: cover; /* Fills container without side bars */
+
+background: #000;
+
+transition: transform 0.5s ease;
+
+}
+
+
+
+/* Smooth zoom on hover */
+
+.video-card:hover .video-wrapper video {
+
+transform: scale(1.08);
+
+}
+
+
+
+.play-overlay{
+
+position:absolute;
+
+inset:0;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:rgba(0,0,0,.2);
+
+transition:.3s ease;
+
+pointer-events: none;
+
+z-index: 2;
+
+}
+
+
+
+/* Hide play button on hover during preview */
+
+.video-card:hover .play-overlay{
+
+opacity: 0;
+
+}
+
+
+
+.play-overlay span{
+
+width:64px;
+
+height:64px;
+
+border-radius:50%;
+
+background:rgba(255,255,255,.95);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:24px;
+
+color:#000;
+
+box-shadow:0 4px 20px rgba(0,0,0,.4);
+
+}
+
+
+
+.video-title{
+
+margin-top:12px;
+
+font-weight:600;
+
+font-size:.95em;
+
+}
+
+
+
+/* Custom dark Lightbox */
+
+#videoModal{
+
+position:fixed;
+
+inset:0;
+
+background:rgba(5, 5, 5, 0.96);
+
+display:none;
+
+align-items:center;
+
+justify-content:center;
+
+z-index:99999;
+
+padding:20px;
+
+backdrop-filter: blur(10px);
+
+}
+
+
+
+#videoModal.active{
+
+display:flex;
+
+}
+
+
+
+.modal-content-wrapper {
+
+position: relative;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+}
+
+
+
+/* Adaptive modal player */
+
+#videoModal video{
+
+max-width: 90vw;
+
+max-height: 85vh;
+
+border-radius:10px;
+
+background:#000;
+
+box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+
+}
+
+
+
+#videoClose{
+
+position:absolute;
+
+top: -45px;
+
+right: 0;
+
+color:rgba(255,255,255,0.6);
+
+font-size:40px;
+
+cursor:pointer;
+
+line-height:1;
+
+transition: color 0.2s;
+
+}
+
+#videoClose:hover {
+
+color: #fff;
+
+}
+
+
+
+/* Resource Section Styles */
+
+.resources-list {
+
+list-style: none;
+
+padding: 0;
+
+margin: 2em 0 0 0;
+
+}
+
+
+
+.resource-item {
+
+display: block;
+
+padding: 15px 20px;
+
+margin-bottom: 12px;
+
+background: rgba(255, 255, 255, 0.05);
+
+border-radius: 8px;
+
+border: 1px solid rgba(255, 255, 255, 0.1);
+
+text-decoration: none;
+
+color: inherit;
+
+transition: all 0.3s ease;
+
+display: flex;
+
+align-items: center;
+
+}
+
+
+
+.resource-item:hover {
+
+background: rgba(255, 255, 255, 0.12);
+
+border-color: rgba(255, 255, 255, 0.25);
+
+transform: translateX(4px);
+
+color: inherit !important; 
+
+}
+
+
+
+.resource-item:hover .resource-name {
+
+font-weight: 700;
+
+}
+
+
+
+.resource-icon {
+
+width: 24px;
+
+height: 24px;
+
+margin-right: 15px;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+flex-shrink: 0;
+
+}
+
+
+
+.resource-icon svg {
+
+fill: currentColor !important;
+
+width: 100%;
+
+height: 100%;
+
+display: block;
+
+}
+
+
+
+.resource-name {
+
+font-weight: 500;
+
+font-size: 1.1em;
+
+}
+
+
+
+/* Mobile optimizations */
+
+@media screen and (max-width:736px){
+
+.video-grid{
+
+grid-template-columns:1fr; /* Single column */
+
+gap:30px;
+
+max-width: 100%; /* Full screen width deployment for mobile panels */
+
 }
 
 .video-card{
-	position:relative;
-	cursor:pointer;
-	text-align:center;
-	padding: 0 15%; /* Inside margins for subtle preview scaling */
+
+padding: 0 10%; /* Subtle padding adjustments for compact phone screens */
+
 }
 
-/* Wrapper constraints to prevent video from expanding outside bounds on zoom */
-.video-wrapper{
-	position:relative;
-	border-radius:12px;
-	overflow:hidden;
-	background:#000;
-	box-shadow:0 10px 30px rgba(0,0,0,.3);
-	width: 100%;
-}
-
-/* Aspect ratio handling at CSS level */
-.video-wrapper.vertical {
-	aspect-ratio: 9 / 16; /* For Reels / Shorts (1, 2, 3) */
-}
-
-.video-wrapper.horizontal {
-	aspect-ratio: 16 / 9; /* For regular YouTube (4) */
-}
-
-/* Base video styling */
-.video-wrapper video{
-	display:block;
-	width:100%;
-	height:100%;
-	object-fit: cover; /* Fills container without side bars */
-	background: #000;
-	transition: transform 0.5s ease;
-}
-
-/* Smooth zoom on hover */
-.video-card:hover .video-wrapper video {
-	transform: scale(1.08);
-}
-
-.play-overlay{
-	position:absolute;
-	inset:0;
-	display:flex;
-	align-items:center;
-	justify-content:center;
-	background:rgba(0,0,0,.2);
-	transition:.3s ease;
-	pointer-events: none;
-	z-index: 2;
-}
-
-/* Hide play button on hover during preview */
-.video-card:hover .play-overlay{
-	opacity: 0;
-}
-
-.play-overlay span{
-	width:64px;
-	height:64px;
-	border-radius:50%;
-	background:rgba(255,255,255,.95);
-	display:flex;
-	align-items:center;
-	justify-content:center;
-	font-size:24px;
-	color:#000;
-	box-shadow:0 4px 20px rgba(0,0,0,.4);
-}
-
-.video-title{
-	margin-top:12px;
-	font-weight:600;
-	font-size:.95em;
-}
-
-/* Custom dark Lightbox */
-#videoModal{
-	position:fixed;
-	inset:0;
-	background:rgba(5, 5, 5, 0.96);
-	display:none;
-	align-items:center;
-	justify-content:center;
-	z-index:99999;
-	padding:20px;
-	backdrop-filter: blur(10px);
-}
-
-#videoModal.active{
-	display:flex;
-}
-
-.modal-content-wrapper {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-/* Adaptive modal player */
 #videoModal video{
-	max-width: 90vw;
-	max-height: 85vh;
-	border-radius:10px;
-	background:#000;
-	box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+
+max-width: 95vw;
+
+max-height: 80vh;
+
 }
 
-#videoClose{
-	position:absolute;
-	top: -45px;
-	right: 0;
-	color:rgba(255,255,255,0.6);
-	font-size:40px;
-	cursor:pointer;
-	line-height:1;
-	transition: color 0.2s;
-}
-#videoClose:hover {
-	color: #fff;
+#videoClose {
+
+top: -45px;
+
+right: 5px;
+
 }
 
-/* Resource Section Styles */
-.resources-list {
-	list-style: none;
-	padding: 0;
-	margin: 2em 0 0 0;
 }
 
-.resource-item {
-	display: block;
-	padding: 15px 20px;
-	margin-bottom: 12px;
-	background: rgba(255, 255, 255, 0.05);
-	border-radius: 8px;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	text-decoration: none;
-	color: inherit;
-	transition: all 0.3s ease;
-	display: flex;
-	align-items: center;
-}
-
-.resource-item:hover {
-	background: rgba(255, 255, 255, 0.12);
-	border-color: rgba(255, 255, 255, 0.25);
-	transform: translateX(4px);
-	color: inherit !important; 
-}
-
-.resource-item:hover .resource-name {
-	font-weight: 700;
-}
-
-.resource-icon {
-	width: 24px;
-	height: 24px;
-	margin-right: 15px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
-}
-
-.resource-icon svg {
-	fill: currentColor !important;
-	width: 100%;
-	height: 100%;
-	display: block;
-}
-
-.resource-name {
-	font-weight: 500;
-	font-size: 1.1em;
-}
-
-/* Mobile optimizations */
-@media screen and (max-width:736px){
-	.video-grid{
-		grid-template-columns:1fr; /* Single column */
-		gap:30px;
-		max-width: 100%; /* Full screen width deployment for mobile panels */
-	}
-	.video-card{
-		padding: 0 10%; /* Subtle padding adjustments for compact phone screens */
-	}
-	#videoModal video{
-		max-width: 95vw;
-		max-height: 80vh;
-	}
-	#videoClose {
-		top: -45px;
-		right: 5px;
-	}
-}
 .panel {
+
     will-change: transform, opacity;
+
     backface-visibility: hidden;
+
 }
+
 </style>
-	</head>
-	<body class="is-preload">
 
-		<div id="wrapper">
+</head>
 
-				<nav id="nav">
-						<a href="#" class="icon solid fa-home"><span>Home</span></a>
-						<a href="#work" class="icon solid fa-folder"><span>Work</span></a>
-						<a href="#contact" class="icon solid fa-envelope"><span>Contact</span></a>
-						<a href="#resources" class="icon solid fa-share-alt"><span>Links</span></a>
-					</nav>
+<body class="is-preload">
 
-				<div id="main">
 
-						<article id="home" class="panel intro">
-								<header>
+
+<div id="wrapper">
+
+
+
+<nav id="nav">
+
+<a href="#" class="icon solid fa-home"><span>Home</span></a>
+
+<a href="#work" class="icon solid fa-folder"><span>Work</span></a>
+
+<a href="#contact" class="icon solid fa-envelope"><span>Contact</span></a>
+
+<a href="#resources" class="icon solid fa-share-alt"><span>Links</span></a>
+
+</nav>
+
+
+
+<div id="main">
+
+
+
+<article id="home" class="panel intro">
+
 <header>
+
     <h1>Vadim Varda</h1>
-        <span style="display: block; font-size: 0.45em !important; font-weight: 600 !important; filter: opacity(0.35) !important; margin-top: -35px !important; margin-bottom: 12px !important; letter-spacing: 0.05em; text-transform: uppercase;">
-        Microsoft Certified Professional (MCP)
-    </span>
-    <p style="margin-top: 0 !important;">
+
+        <p style="margin-top: -20px !important;">
+
+                <strong class="mcp-badge" style="color: rgba(255, 255, 255, 0.35) !important; font-size: 0.50em !important; display: inline-block; font-weight: 600; margin-top: -25px !important; margin-bottom: 20px !important; letter-spacing: 0.05em; text-transform: uppercase;">
+
+            Microsoft Certified Professional (MCP)
+
+        </strong><br>
+
         Creative Strategist & UGC Video Producer <br> 
+
         Fintech • SaaS • B2B • IT
+
     </p>
+
 </header>
-								<a href="#work" class="jumplink pic">
-									<span class="arrow icon solid fa-chevron-right"><span>See my work</span></span>
-									<img src="images/me.webp" alt="Vadim Varda" loading="lazy" width="400" height="400" />
-								</a>
-							</article>
 
-						<article id="work" class="panel">
-								<header>
-									<h2>Specialties: </h2>
-								</header>
-								<p>
-									<b>⚡ Screen-casts 📊 Tech Explainers 🌀 Motion Graphics  🌐 MULTILANG  Speech<br></b>
-																	<i>Tech brands lose up to 80% of users in the first 3 seconds of an ad because their product feels too complex. I fix that. I translate your complex software into high-converting Video Ads, Reels & Shorts that drive sign-ups.</i>
-								</p>
-								<p>
-									<b>From Strategy to Conversion  (End-to-End):</b><br>
-01. Diagnose & Strategize I analyze your audience, dissect competitors, and find the exact creative angles that make your product click.<br>
-02. Write for Retention I script hooks that stop the scroll past the 3-second drop-off and craft smooth, optimize for paid acquisition. <br>
-03. Record & Produce I deliver flawless UI/UX screen-casts, clear voiceovers, and natural on-camera presentations. No fluff, just crisp product clarity.<br>
-04. Edit & Guide I add dynamic motion graphics, adapt videos for multi-platform reach, and deliver A/B hook variations to lower your CPA.
-								</p>
-								<section>
+<a href="#work" class="jumplink pic">
 
-	<div class="video-grid">
+<span class="arrow icon solid fa-chevron-right"><span>See my work</span></span>
 
-		<div class="video-card">
-			<div class="video-wrapper vertical">
-				<video class="preview-video" muted loop playsinline preload="none" data-src="1por.mp4"></video>
-				<div class="play-overlay"><span>▶</span></div>
-			</div>
-			<div class="video-title">Crypto Reels</div>
-		</div>
+<img src="images/me.webp" alt="Vadim Varda" loading="lazy" width="400" height="400" />
 
-		<div class="video-card">
-			<div class="video-wrapper vertical">
-				<video class="preview-video" muted loop playsinline preload="none" data-src="2por.mp4"></video>
-				<div class="play-overlay"><span>▶</span></div>
-			</div>
-			<div class="video-title">TikTok Lightroom</div>
-		</div>
+</a>
 
-		<div class="video-card">
-			<div class="video-wrapper vertical">
-				<video class="preview-video" muted loop playsinline preload="none" data-src="3por.mp4"></video>
-				<div class="play-overlay"><span>▶</span></div>
-			</div>
-			<div class="video-title">Gambling Ads</div>
-		</div>
-
-		<div class="video-card">
-			<div class="video-wrapper horizontal">
-				<video class="preview-video" muted loop playsinline preload="none" data-src="4por.mp4"></video>
-				<div class="play-overlay"><span>▶</span></div>
-			</div>
-			<div class="video-title">Gambling Tutorials ...and more upon request</div>
-		</div>
-
-	</div>
-
-</section>
-							</article>
-
-						<article id="contact" class="panel">
-	<header>
-		<h2>Contact Me</h2>
-	</header>
-	
-	<div id="success-message" style="display: none; background: #edf7ed; color: #1e4620; padding: 15px; border-radius: 4px; margin-bottom: 20px; text-align: center; font-weight: bold; border: 1px solid #c3e6cb;">
-		Thank you for sending your message! Our team will contact you soon.
-	</div>
-
-	<form method="POST" id="contact-form">
-		<input type="hidden" name="access_key" value="2afb8195-1aaf-480c-96f2-7d8a218d05b9">
-
-		<div>
-			<div class="row">
-				<div class="col-6 col-12-medium">
-					<input type="text" name="name" id="w3-name" placeholder="Name" required />
-				</div>
-				<div class="col-6 col-12-medium">
-					<input type="email" name="email" id="w3-email" placeholder="Email" required />
-				</div>
-				<div class="col-12">
-					<input type="text" name="subject" id="w3-subject" placeholder="Subject" required />
-				</div>
-				<div class="col-12">
-					<textarea name="message" id="w3-message" placeholder="Message" rows="6" required></textarea>
-				</div>
-				<div class="col-12">
-					<input type="submit" id="submit-btn" value="Send Message" />
-				</div>
-			</div>
-		</div>
-	</form>
 </article>
 
+
+
+<article id="work" class="panel">
+
+<header>
+
+<h2>Specialties: </h2>
+
+</header>
+
+<p>
+
+<b>⚡ Screen-casts 📊 Tech Explainers 🌀 Motion Graphics  🌐 MULTILANG  Speech<br></b>
+
+<i>Tech brands lose up to 80% of users in the first 3 seconds of an ad because their product feels too complex. I fix that. I translate your complex software into high-converting Video Ads, Reels & Shorts that drive sign-ups.</i>
+
+</p>
+
+<p>
+
+<b>From Strategy to Conversion  (End-to-End):</b><br>
+
+01. Diagnose & Strategize I analyze your audience, dissect competitors, and find the exact creative angles that make your product click.<br>
+
+02. Write for Retention I script hooks that stop the scroll past the 3-second drop-off and craft smooth, optimize for paid acquisition. <br>
+
+03. Record & Produce I deliver flawless UI/UX screen-casts, clear voiceovers, and natural on-camera presentations. No fluff, just crisp product clarity.<br>
+
+04. Edit & Guide I add dynamic motion graphics, adapt videos for multi-platform reach, and deliver A/B hook variations to lower your CPA.
+
+</p>
+
+<section>
+
+
+
+<div class="video-grid">
+
+
+
+<div class="video-card">
+
+<div class="video-wrapper vertical">
+
+<video class="preview-video" muted loop playsinline preload="none" data-src="1por.mp4"></video>
+
+<div class="play-overlay"><span>▶</span></div>
+
+</div>
+
+<div class="video-title">Crypto Reels</div>
+
+</div>
+
+
+
+<div class="video-card">
+
+<div class="video-wrapper vertical">
+
+<video class="preview-video" muted loop playsinline preload="none" data-src="2por.mp4"></video>
+
+<div class="play-overlay"><span>▶</span></div>
+
+</div>
+
+<div class="video-title">TikTok Lightroom</div>
+
+</div>
+
+
+
+<div class="video-card">
+
+<div class="video-wrapper vertical">
+
+<video class="preview-video" muted loop playsinline preload="none" data-src="3por.mp4"></video>
+
+<div class="play-overlay"><span>▶</span></div>
+
+</div>
+
+<div class="video-title">Gambling Ads</div>
+
+</div>
+
+
+
+<div class="video-card">
+
+<div class="video-wrapper horizontal">
+
+<video class="preview-video" muted loop playsinline preload="none" data-src="4por.mp4"></video>
+
+<div class="play-overlay"><span>▶</span></div>
+
+</div>
+
+<div class="video-title">Gambling Tutorials ...and more upon request</div>
+
+</div>
+
+
+
+</div>
+
+
+
+</section>
+
+</article>
+
+
+
+<article id="contact" class="panel">
+
+<header>
+
+<h2>Contact Me</h2>
+
+</header>
+
+
+<div id="success-message" style="display: none; background: #edf7ed; color: #1e4620; padding: 15px; border-radius: 4px; margin-bottom: 20px; text-align: center; font-weight: bold; border: 1px solid #c3e6cb;">
+
+Thank you for sending your message! Our team will contact you soon.
+
+</div>
+
+
+
+<form method="POST" id="contact-form">
+
+<input type="hidden" name="access_key" value="2afb8195-1aaf-480c-96f2-7d8a218d05b9">
+
+
+
+<div>
+
+<div class="row">
+
+<div class="col-6 col-12-medium">
+
+<input type="text" name="name" id="w3-name" placeholder="Name" required />
+
+</div>
+
+<div class="col-6 col-12-medium">
+
+<input type="email" name="email" id="w3-email" placeholder="Email" required />
+
+</div>
+
+<div class="col-12">
+
+<input type="text" name="subject" id="w3-subject" placeholder="Subject" required />
+
+</div>
+
+<div class="col-12">
+
+<textarea name="message" id="w3-message" placeholder="Message" rows="6" required></textarea>
+
+</div>
+
+<div class="col-12">
+
+<input type="submit" id="submit-btn" value="Send Message" />
+
+</div>
+
+</div>
+
+</div>
+
+</form>
+
+</article>
+
+
+
 <script>
+
 document.getElementById('contact-form').addEventListener('submit', function(e) {
+
     e.preventDefault(); 
+
     
+
     const btn = document.getElementById('submit-btn');
+
     const msg = document.getElementById('success-message');
+
     const form = document.getElementById('contact-form');
+
     
+
     btn.value = 'Sending...';
+
     btn.disabled = true;
+
+
 
     const formData = new FormData(form);
 
+
+
     fetch('https://api.web3forms.com/submit', {
+
         method: 'POST',
+
         body: formData
+
     })
+
     .then(response => response.json())
+
     .then(data => {
+
         if (data.success) {
+
             msg.style.display = 'block';
+
             form.reset();
+
             msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
         } else {
+
             alert('Something went wrong. Please try again.');
+
         }
+
     })
+
     .catch(error => {
+
         console.error('Error:', error);
+
         alert('An error occurred. Please try again.');
+
     })
+
     .finally(() => {
+
         btn.value = 'Send Message';
+
         btn.disabled = false;
+
     });
+
 });
+
 </script>
-						<article id="resources" class="panel">
-								<header>
-									<h2>My Resources & Socials</h2>
-								</header>
-								<div class="resources-list">
-									<a href="https://t.me/ocean_freeway" target="_blank" rel="noopener noreferrer" class="resource-item">
-										<div class="resource-icon">
-											<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .33z"/></svg>
-										</div>
-										<span class="resource-name">Telegram (ocean_freeway)</span>
-									</a>
-									<a href="https://x.com/ocean_freeway" target="_blank" rel="noopener noreferrer" class="resource-item">
-										<div class="resource-icon">
-											<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-										</div>
-										<span class="resource-name">X / Twitter (ocean_freeway)</span>
-									</a>
-									<a href="https://www.instagram.com/ocean_freeway/" target="_blank" rel="noopener noreferrer" class="resource-item">
-										<div class="resource-icon">
-											<svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-										</div>
-										<span class="resource-name">Instagram (ocean_freeway)</span>
-									</a>
-									<a href="https://github.com/ocean-way" target="_blank" rel="noopener noreferrer" class="resource-item">
-										<div class="resource-icon">
-											<svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-										</div>
-										<span class="resource-name">GitHub (ocean-way)</span>
-									</a>
-									<a href="https://huggingface.co/ocean-way" target="_blank" rel="noopener noreferrer" class="resource-item">
-										<div class="resource-icon">
-											<svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-2.5-11a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-5.75 3.5c.75 1.5 2 2.5 3.25 2.5s2.5-1 3.25-2.5h-6.5zM3.5 14.5c.5-1 1.5-1.5 2.5-1s1 2 0 3-2.5.5-2.5-2zm17 0c.5 1-1.5 2-2.5 2s-.5-2.5 0-3 2-.5 2.5 1z"/></svg>
-										</div>
-										<span class="resource-name">Hugging Face (ocean-way)</span>
-									</a>
-									<a href="https://www.youtube.com/@ocean-way" target="_blank" rel="noopener noreferrer" class="resource-item">
-										<div class="resource-icon">
-											<svg viewBox="0 0 24 24"><path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.516 0-9.387.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.507 9.386.507 9.386.507s7.517 0 9.387-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-										</div>
-										<span class="resource-name">YouTube (@ocean-way)</span>
-									</a>
-								</div>
-							</article>
 
-					</div>
+<article id="resources" class="panel">
 
-				<div id="footer">
-						<ul class="copyright">
-							<li>© 2026. All rights reserved. Compliant with HTML5. Conforms to WCAG 2.1. Aligned with OWASP top security standards </li>
-						</ul>
-					</div>
+<header>
 
-			</div>
+<h2>My Resources & Socials</h2>
 
-		<script src="assets/js/jquery.min.js" defer></script>
-		<script src="assets/js/browser.min.js" defer></script>
-		<script src="assets/js/breakpoints.min.js" defer></script>
-		<script src="assets/js/util.js" defer></script>
-		<script src="assets/js/main.js" defer></script>
+</header>
 
-<div id="videoModal">
-	<div class="modal-content-wrapper">
-		<div id="videoClose">&times;</div>
-		<video id="modalVideo" controls playsinline></video>
-	</div>
+<div class="resources-list">
+
+<a href="https://t.me/ocean_freeway" target="_blank" rel="noopener noreferrer" class="resource-item">
+
+<div class="resource-icon">
+
+<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .33z"/></svg>
+
 </div>
 
+<span class="resource-name">Telegram (ocean_freeway)</span>
+
+</a>
+
+<a href="https://x.com/ocean_freeway" target="_blank" rel="noopener noreferrer" class="resource-item">
+
+<div class="resource-icon">
+
+<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+
+</div>
+
+<span class="resource-name">X / Twitter (ocean_freeway)</span>
+
+</a>
+
+<a href="https://www.instagram.com/ocean_freeway/" target="_blank" rel="noopener noreferrer" class="resource-item">
+
+<div class="resource-icon">
+
+<svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+
+</div>
+
+<span class="resource-name">Instagram (ocean_freeway)</span>
+
+</a>
+
+<a href="https://github.com/ocean-way" target="_blank" rel="noopener noreferrer" class="resource-item">
+
+<div class="resource-icon">
+
+<svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+
+</div>
+
+<span class="resource-name">GitHub (ocean-way)</span>
+
+</a>
+
+<a href="https://huggingface.co/ocean-way" target="_blank" rel="noopener noreferrer" class="resource-item">
+
+<div class="resource-icon">
+
+<svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zm-2.5-11a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-5.75 3.5c.75 1.5 2 2.5 3.25 2.5s2.5-1 3.25-2.5h-6.5zM3.5 14.5c.5-1 1.5-1.5 2.5-1s1 2 0 3-2.5.5-2.5-2zm17 0c.5 1-1.5 2-2.5 2s-.5-2.5 0-3 2-.5 2.5 1z"/></svg>
+
+</div>
+
+<span class="resource-name">Hugging Face (ocean-way)</span>
+
+</a>
+
+<a href="https://www.youtube.com/@ocean-way" target="_blank" rel="noopener noreferrer" class="resource-item">
+
+<div class="resource-icon">
+
+<svg viewBox="0 0 24 24"><path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.516 0-9.387.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.507 9.386.507 9.386.507s7.517 0 9.387-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+
+</div>
+
+<span class="resource-name">YouTube (@ocean-way)</span>
+
+</a>
+
+</div>
+
+</article>
+
+
+
+</div>
+
+
+
+<div id="footer">
+
+<ul class="copyright">
+
+<li>© 2026. All rights reserved. Compliant with HTML5. Conforms to WCAG 2.1. Aligned with OWASP top security standards </li>
+
+</ul>
+
+</div>
+
+
+
+</div>
+
+
+
+<script src="assets/js/jquery.min.js" defer></script>
+
+<script src="assets/js/browser.min.js" defer></script>
+
+<script src="assets/js/breakpoints.min.js" defer></script>
+
+<script src="assets/js/util.js" defer></script>
+
+<script src="assets/js/main.js" defer></script>
+
+
+
+<div id="videoModal">
+
+<div class="modal-content-wrapper">
+
+<div id="videoClose">&times;</div>
+
+<video id="modalVideo" controls playsinline></video>
+
+</div>
+
+</div>
+
+
+
 <script>
+
 // Нативный JS запускается мгновенно
+
 const modal = document.getElementById('videoModal');
+
 const modalVideo = document.getElementById('modalVideo');
+
 const closeBtn = document.getElementById('videoClose');
 
+
+
 document.querySelectorAll('.preview-video').forEach(video => {
-	
-	video.addEventListener('loadedmetadata', () => {
-		video.currentTime = 0.1;
-	});
 
-	// Асинхронно активируем видео и создаем превью только КОГДА страница полностью отрисована и готова к взаимодействию
-	window.addEventListener('DOMContentLoaded', () => {
-		setTimeout(() => {
-			video.src = video.dataset.src;
-			video.preload = "metadata";
-		}, 600); // 600мс задержка дает первой вкладке открыться моментально
-	});
 
-	// Autoplay без звука при наведении
-	video.parentElement.addEventListener('mouseenter', () => {
-		if(video.src) {
-			video.muted = true;
-			video.play().catch(err => console.log("Autoplay blocked"));
-		}
-	});
+video.addEventListener('loadedmetadata', () => {
 
-	video.parentElement.addEventListener('mouseleave', () => {
-		if(video.src) {
-			video.pause();
-			video.currentTime = 0.1;
-		}
-	});
+video.currentTime = 0.1;
 
-	// Клик открывает модалку со звуком
-	video.parentElement.addEventListener('click', () => {
-		modalVideo.src = video.dataset.src;
-		modal.classList.add('active');
-		modalVideo.muted = false; 
-		modalVideo.play();
-		document.body.style.overflow = 'hidden';
-	});
 });
 
-function closeModal(){
-	modalVideo.pause();
-	modalVideo.removeAttribute('src');
-	modalVideo.load();
-	modal.classList.remove('active');
-	document.body.style.overflow = '';
+
+
+// Асинхронно активируем видео и создаем превью только КОГДА страница полностью отрисована и готова к взаимодействию
+
+window.addEventListener('DOMContentLoaded', () => {
+
+setTimeout(() => {
+
+video.src = video.dataset.src;
+
+video.preload = "metadata";
+
+}, 600); // 600мс задержка дает первой вкладке открыться моментально
+
+});
+
+
+
+// Autoplay без звука при наведении
+
+video.parentElement.addEventListener('mouseenter', () => {
+
+if(video.src) {
+
+video.muted = true;
+
+video.play().catch(err => console.log("Autoplay blocked"));
+
 }
 
-closeBtn.addEventListener('click', (e) => {
-	e.stopPropagation();
-	closeModal();
 });
+
+
+
+video.parentElement.addEventListener('mouseleave', () => {
+
+if(video.src) {
+
+video.pause();
+
+video.currentTime = 0.1;
+
+}
+
+});
+
+
+
+// Клик открывает модалку со звуком
+
+video.parentElement.addEventListener('click', () => {
+
+modalVideo.src = video.dataset.src;
+
+modal.classList.add('active');
+
+modalVideo.muted = false; 
+
+modalVideo.play();
+
+document.body.style.overflow = 'hidden';
+
+});
+
+});
+
+
+
+function closeModal(){
+
+modalVideo.pause();
+
+modalVideo.removeAttribute('src');
+
+modalVideo.load();
+
+modal.classList.remove('active');
+
+document.body.style.overflow = '';
+
+}
+
+
+
+closeBtn.addEventListener('click', (e) => {
+
+e.stopPropagation();
+
+closeModal();
+
+});
+
+
 
 modal.addEventListener('click', function(e){
-	if (e.target === modal || e.target.classList.contains('modal-content-wrapper')) {
-		closeModal();
-	}
+
+if (e.target === modal || e.target.classList.contains('modal-content-wrapper')) {
+
+closeModal();
+
+}
+
 });
 
+
+
 document.addEventListener('keydown', function(e){
-	if(e.key === 'Escape' && modal.classList.contains('active')){
-		closeModal();
-	}
+
+if(e.key === 'Escape' && modal.classList.contains('active')){
+
+closeModal();
+
+}
+
 });
+
 </script>
-	</body>
-</html>
+
+</body>
+
+</html> 
+
