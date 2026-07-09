@@ -11,16 +11,17 @@
 .video-grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:40px;
+gap:40px; /* Increased gap between cards */
 margin: 2em auto 0 auto;
-max-width: 80%;
+max-width: 80%; /* Compresses the grid horizontally for better margins */
 }
 .video-card{
 position:relative;
 cursor:pointer;
 text-align:center;
-padding: 0 15%;
+padding: 0 15%; /* Inside margins for subtle preview scaling */
 }
+/* Wrapper constraints to prevent video from expanding outside bounds on zoom */
 .video-wrapper{
 position:relative;
 border-radius:12px;
@@ -29,20 +30,23 @@ background:#000;
 box-shadow:0 10px 30px rgba(0,0,0,.3);
 width: 100%;
 }
+/* Aspect ratio handling at CSS level */
 .video-wrapper.vertical {
-aspect-ratio: 9 / 16;
+aspect-ratio: 9 / 16; /* For Reels / Shorts (1, 2, 3) */
 }
 .video-wrapper.horizontal {
-aspect-ratio: 16 / 9;
+aspect-ratio: 16 / 9; /* For regular YouTube (4) */
 }
+/* Base video styling */
 .video-wrapper video{
 display:block;
 width:100%;
 height:100%;
-object-fit: cover;
+object-fit: cover; /* Fills container without side bars */
 background: #000;
 transition: transform 0.5s ease;
 }
+/* Smooth zoom on hover */
 .video-card:hover .video-wrapper video {
 transform: scale(1.08);
 }
@@ -57,6 +61,7 @@ transition:.3s ease;
 pointer-events: none;
 z-index: 2;
 }
+/* Hide play button on hover during preview */
 .video-card:hover .play-overlay{
 opacity: 0;
 }
@@ -77,6 +82,7 @@ margin-top:12px;
 font-weight:600;
 font-size:.95em;
 }
+/* Custom dark Lightbox */
 #videoModal{
 position:fixed;
 inset:0;
@@ -97,6 +103,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 }
+/* Adaptive modal player */
 #videoModal video{
 max-width: 90vw;
 max-height: 85vh;
@@ -117,6 +124,7 @@ transition: color 0.2s;
 #videoClose:hover {
 color: #fff;
 }
+/* Resource Section Styles */
 .resources-list {
 list-style: none;
 padding: 0;
@@ -163,14 +171,15 @@ display: block;
 font-weight: 500;
 font-size: 1.1em;
 }
+/* Mobile optimizations */
 @media screen and (max-width:736px){
 .video-grid{
-grid-template-columns:1fr;
+grid-template-columns:1fr; /* Single column */
 gap:30px;
-max-width: 100%;
+max-width: 100%; /* Full screen width deployment for mobile panels */
 }
 .video-card{
-padding: 0 10%;
+padding: 0 10%; /* Subtle padding adjustments for compact phone screens */
 }
 #videoModal video{
 max-width: 95vw;
@@ -184,16 +193,6 @@ right: 5px;
 .panel {
 will-change: transform, opacity;
 backface-visibility: hidden;
-}
-.mcp-badge {
-color: rgba(255, 255, 255, 0.35) !important;
-font-size: 0.50em !important;
-display: inline-block;
-font-weight: 600;
-margin-top: -25px !important;
-margin-bottom: 20px !important;
-letter-spacing: 0.05em;
-text-transform: uppercase;
 }
 </style>
 </head>
@@ -210,7 +209,7 @@ text-transform: uppercase;
 <header>
 <h1>Vadim Varda</h1>
 <p style="margin-top: -20px !important;">
-<span class="mcp-badge">Microsoft Certified Professional (MCP)</span><br>
+<strong style="color: rgba(255, 255, 255, 0.35) !important; font-size: 0.50em !important; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Microsoft Certified Professional (MCP)</strong><br>
 Creative Strategist & UGC Video Producer <br>
 Fintech • SaaS • B2B • IT
 </p>
