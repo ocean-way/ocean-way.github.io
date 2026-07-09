@@ -217,13 +217,13 @@
     will-change: transform, opacity;
     backface-visibility: hidden;
 }
-	header .mcp-badge {
-	display: block;
-	font-size: 0.75em;        
-	font-weight: 600;         
-	color: rgba(255, 255, 255, 0.5); 
-	margin: -0.5em 0 1.5em 0; 
-	letter-spacing: 0.05em;   
+#home.intro header p strong.mcp-badge {
+    display: inline-block; 
+    color: rgba(255, 255, 255, 0.5) !important; 
+    font-size: 0.85em; 
+    font-weight: 600; 
+    margin-bottom: 0.8em; 
+    letter-spacing: 0.05em; 
 }
 </style>
 	</head>
@@ -243,8 +243,9 @@
 						<article id="home" class="panel intro">
 								<header>
 									<h1>Vadim Varda</h1>
-									<span class="mcp-badge">Microsoft Certified Professional (MCP)</span>
-									<p>Creative Strategist & UGC Video Producer <br> Fintech • SaaS • B2B • IT</p>
+									<strong class="mcp-badge">Microsoft Certified Professional (MCP)</strong><br>
+		Creative Strategist & UGC Video Producer <br> 
+		Fintech • SaaS • B2B • IT</p>
 								</header>
 								<a href="#work" class="jumplink pic">
 									<span class="arrow icon solid fa-chevron-right"><span>See my work</span></span>
